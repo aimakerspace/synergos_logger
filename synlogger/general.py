@@ -273,7 +273,7 @@ class SysmetricLogger(RootLogger):
             signame (str): Signal recieved
 
         """
-        self.synlog.info(f"{frame} has been received. Stopping sysmetric operations...")        
+        self.synlog.info(f"Signal code {signnum} on {frame} has been received. Stopping sysmetric operations...")        
 
         # Zero is considered “successful termination” and any nonzero value is 
         # considered “abnormal termination” by shells and the like.
@@ -360,9 +360,9 @@ class SysmetricLogger(RootLogger):
             self.initialise(censor_keys=censor_keys)
             
             descriptors = {
-                "file_path": file_path,
-                "Class": class_name,
-                "function_name": function_name
+                "ID_path": file_path,
+                "ID_class": class_name,
+                "ID_function": function_name
             }
 
             self.tracker = Process(target=target, args=(descriptors,))
