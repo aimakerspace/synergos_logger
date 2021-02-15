@@ -1,0 +1,3090 @@
+{
+  "v": 1,
+  "id": "f6f1e9f0-69c4-48dd-b100-f69cd80463c2",
+  "rev": 1,
+  "name": "Synergos Logs",
+  "summary": "Views for monitoring Synergos operations",
+  "description": "",
+  "vendor": "AI Singapore @ synergos-ext@aisingapore.org",
+  "url": "",
+  "parameters": [],
+  "entities": [
+    {
+      "v": "1",
+      "type": {
+        "name": "stream",
+        "version": "1"
+      },
+      "id": "1420ba98-8812-4ac7-88f3-7d6b620f2bba",
+      "data": {
+        "alarm_callbacks": [],
+        "outputs": [],
+        "remove_matches": {
+          "@type": "boolean",
+          "@value": false
+        },
+        "title": {
+          "@type": "string",
+          "@value": "TTP Stream"
+        },
+        "stream_rules": [
+          {
+            "type": {
+              "@type": "string",
+              "@value": "CONTAINS"
+            },
+            "field": {
+              "@type": "string",
+              "@value": "logger"
+            },
+            "value": {
+              "@type": "string",
+              "@value": "TTP_"
+            },
+            "inverted": {
+              "@type": "boolean",
+              "@value": false
+            },
+            "description": {
+              "@type": "string",
+              "@value": ""
+            }
+          }
+        ],
+        "alert_conditions": [],
+        "matching_type": {
+          "@type": "string",
+          "@value": "AND"
+        },
+        "disabled": {
+          "@type": "boolean",
+          "@value": false
+        },
+        "description": {
+          "@type": "string",
+          "@value": "Logs documenting ttp operations"
+        },
+        "default_stream": {
+          "@type": "boolean",
+          "@value": false
+        }
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=4.0.1+6a0cc0b"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "stream",
+        "version": "1"
+      },
+      "id": "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7",
+      "data": {
+        "alarm_callbacks": [],
+        "outputs": [],
+        "remove_matches": {
+          "@type": "boolean",
+          "@value": false
+        },
+        "title": {
+          "@type": "string",
+          "@value": "Sysmetrics Stream"
+        },
+        "stream_rules": [
+          {
+            "type": {
+              "@type": "string",
+              "@value": "CONTAINS"
+            },
+            "field": {
+              "@type": "string",
+              "@value": "logger"
+            },
+            "value": {
+              "@type": "string",
+              "@value": "SYS_"
+            },
+            "inverted": {
+              "@type": "boolean",
+              "@value": false
+            },
+            "description": {
+              "@type": "string",
+              "@value": ""
+            }
+          }
+        ],
+        "alert_conditions": [],
+        "matching_type": {
+          "@type": "string",
+          "@value": "AND"
+        },
+        "disabled": {
+          "@type": "boolean",
+          "@value": false
+        },
+        "description": {
+          "@type": "string",
+          "@value": "Logs containing hardware metadata & statistics"
+        },
+        "default_stream": {
+          "@type": "boolean",
+          "@value": false
+        }
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=4.0.1+6a0cc0b"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "input",
+        "version": "1"
+      },
+      "id": "40d88b21-9f18-4745-8bc8-d8e00a0c85ab",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "Test Logs"
+        },
+        "configuration": {
+          "tls_key_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "port": {
+            "@type": "integer",
+            "@value": 12201
+          },
+          "tls_enable": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "use_null_delimiter": {
+            "@type": "boolean",
+            "@value": true
+          },
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": 1048576
+          },
+          "tcp_keepalive": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "tls_client_auth_cert_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          },
+          "tls_cert_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "max_message_size": {
+            "@type": "integer",
+            "@value": 2097152
+          },
+          "tls_client_auth": {
+            "@type": "string",
+            "@value": "disabled"
+          },
+          "decompress_size_limit": {
+            "@type": "integer",
+            "@value": 8388608
+          },
+          "number_worker_threads": {
+            "@type": "integer",
+            "@value": 4
+          },
+          "tls_key_password": {
+            "@type": "string",
+            "@value": ""
+          }
+        },
+        "static_fields": {},
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog2.inputs.gelf.tcp.GELFTCPInput"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": []
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=4.0.1+6a0cc0b"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "stream",
+        "version": "1"
+      },
+      "id": "4c100b40-84e8-4e10-b929-0007652335f7",
+      "data": {
+        "alarm_callbacks": [],
+        "outputs": [],
+        "remove_matches": {
+          "@type": "boolean",
+          "@value": false
+        },
+        "title": {
+          "@type": "string",
+          "@value": "Worker Stream"
+        },
+        "stream_rules": [
+          {
+            "type": {
+              "@type": "string",
+              "@value": "CONTAINS"
+            },
+            "field": {
+              "@type": "string",
+              "@value": "logger"
+            },
+            "value": {
+              "@type": "string",
+              "@value": "WKR_"
+            },
+            "inverted": {
+              "@type": "boolean",
+              "@value": false
+            },
+            "description": {
+              "@type": "string",
+              "@value": ""
+            }
+          }
+        ],
+        "alert_conditions": [],
+        "matching_type": {
+          "@type": "string",
+          "@value": "AND"
+        },
+        "disabled": {
+          "@type": "boolean",
+          "@value": false
+        },
+        "description": {
+          "@type": "string",
+          "@value": "Logs documenting worker operations"
+        },
+        "default_stream": {
+          "@type": "boolean",
+          "@value": false
+        }
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=4.0.1+6a0cc0b"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "input",
+        "version": "1"
+      },
+      "id": "854cf5d9-862a-47b8-a92f-8cc2f28900c4",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "TTP Logs"
+        },
+        "configuration": {
+          "tls_key_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "port": {
+            "@type": "integer",
+            "@value": 9300
+          },
+          "tls_enable": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "use_null_delimiter": {
+            "@type": "boolean",
+            "@value": true
+          },
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": 1048576
+          },
+          "tcp_keepalive": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "tls_client_auth_cert_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          },
+          "tls_cert_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "max_message_size": {
+            "@type": "integer",
+            "@value": 2097152
+          },
+          "tls_client_auth": {
+            "@type": "string",
+            "@value": "disabled"
+          },
+          "decompress_size_limit": {
+            "@type": "integer",
+            "@value": 8388608
+          },
+          "number_worker_threads": {
+            "@type": "integer",
+            "@value": 4
+          },
+          "tls_key_password": {
+            "@type": "string",
+            "@value": ""
+          }
+        },
+        "static_fields": {},
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog2.inputs.gelf.tcp.GELFTCPInput"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": []
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=4.0.1+6a0cc0b"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "stream",
+        "version": "1"
+      },
+      "id": "f53dd7f6-c09d-41ff-977d-2e5c35d42581",
+      "data": {
+        "alarm_callbacks": [],
+        "outputs": [],
+        "remove_matches": {
+          "@type": "boolean",
+          "@value": false
+        },
+        "title": {
+          "@type": "string",
+          "@value": "Director Stream"
+        },
+        "stream_rules": [
+          {
+            "type": {
+              "@type": "string",
+              "@value": "CONTAINS"
+            },
+            "field": {
+              "@type": "string",
+              "@value": "logger"
+            },
+            "value": {
+              "@type": "string",
+              "@value": "DIR_"
+            },
+            "inverted": {
+              "@type": "boolean",
+              "@value": false
+            },
+            "description": {
+              "@type": "string",
+              "@value": ""
+            }
+          }
+        ],
+        "alert_conditions": [],
+        "matching_type": {
+          "@type": "string",
+          "@value": "AND"
+        },
+        "disabled": {
+          "@type": "boolean",
+          "@value": false
+        },
+        "description": {
+          "@type": "string",
+          "@value": "Logs documenting director operations"
+        },
+        "default_stream": {
+          "@type": "boolean",
+          "@value": false
+        }
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=4.0.1+6a0cc0b"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "input",
+        "version": "1"
+      },
+      "id": "5e62c316-644b-4ce6-ae3b-a289026a3985",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "Worker Logs"
+        },
+        "configuration": {
+          "tls_key_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "port": {
+            "@type": "integer",
+            "@value": 9400
+          },
+          "tls_enable": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "use_null_delimiter": {
+            "@type": "boolean",
+            "@value": true
+          },
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": 1048576
+          },
+          "tcp_keepalive": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "tls_client_auth_cert_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          },
+          "tls_cert_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "max_message_size": {
+            "@type": "integer",
+            "@value": 2097152
+          },
+          "tls_client_auth": {
+            "@type": "string",
+            "@value": "disabled"
+          },
+          "decompress_size_limit": {
+            "@type": "integer",
+            "@value": 8388608
+          },
+          "number_worker_threads": {
+            "@type": "integer",
+            "@value": 4
+          },
+          "tls_key_password": {
+            "@type": "string",
+            "@value": ""
+          }
+        },
+        "static_fields": {},
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog2.inputs.gelf.tcp.GELFTCPInput"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": []
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=4.0.1+6a0cc0b"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "input",
+        "version": "1"
+      },
+      "id": "be143fe2-7c77-4475-9f05-eefca00c7698",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "Director Logs"
+        },
+        "configuration": {
+          "tls_key_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "port": {
+            "@type": "integer",
+            "@value": 9200
+          },
+          "tls_enable": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "use_null_delimiter": {
+            "@type": "boolean",
+            "@value": true
+          },
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": 1048576
+          },
+          "tcp_keepalive": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "tls_client_auth_cert_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          },
+          "tls_cert_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "max_message_size": {
+            "@type": "integer",
+            "@value": 2097152
+          },
+          "tls_client_auth": {
+            "@type": "string",
+            "@value": "disabled"
+          },
+          "decompress_size_limit": {
+            "@type": "integer",
+            "@value": 8388608
+          },
+          "number_worker_threads": {
+            "@type": "integer",
+            "@value": 4
+          },
+          "tls_key_password": {
+            "@type": "string",
+            "@value": ""
+          }
+        },
+        "static_fields": {},
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog2.inputs.gelf.tcp.GELFTCPInput"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": []
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=4.0.1+6a0cc0b"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "dashboard",
+        "version": "2"
+      },
+      "id": "929dc97a-4e8a-4a8b-b88d-82e7a2f3837a",
+      "data": {
+        "summary": {
+          "@type": "string",
+          "@value": "Tracking widgets for a Synergos cluster"
+        },
+        "search": {
+          "queries": [
+            {
+              "id": "a734cad6-5744-4466-a393-49dcee7d7b5d",
+              "timerange": {
+                "type": "relative",
+                "range": 300
+              },
+              "query": {
+                "type": "elasticsearch",
+                "query_string": ""
+              },
+              "search_types": [
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": null,
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "offset": 0,
+                  "streams": [
+                    "1420ba98-8812-4ac7-88f3-7d6b620f2bba"
+                  ],
+                  "filter": null,
+                  "decorators": [],
+                  "type": "messages",
+                  "id": "112c02db-7eaa-4c7a-a961-220c0d3cfe86",
+                  "limit": 150
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "1420ba98-8812-4ac7-88f3-7d6b620f2bba"
+                  ],
+                  "series": [
+                    {
+                      "type": "count",
+                      "id": "count()",
+                      "field": null
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "values",
+                      "field": "logger",
+                      "limit": 15
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "94cf8da5-6a07-4ed7-ae35-811489e149c3",
+                  "column_groups": [],
+                  "sort": []
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "1420ba98-8812-4ac7-88f3-7d6b620f2bba"
+                  ],
+                  "series": [
+                    {
+                      "type": "count",
+                      "id": "count()",
+                      "field": null
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "time",
+                      "field": "timestamp",
+                      "interval": {
+                        "type": "auto",
+                        "scaling": 1
+                      }
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "a3cbb23d-91ce-4a0a-8090-e6c519fb67bd",
+                  "column_groups": [
+                    {
+                      "type": "values",
+                      "field": "logger",
+                      "limit": 15
+                    }
+                  ],
+                  "sort": []
+                }
+              ]
+            },
+            {
+              "id": "cfd3a3c4-b3e9-40b5-9650-d3ea54cd8719",
+              "timerange": {
+                "type": "relative",
+                "range": 300
+              },
+              "query": {
+                "type": "elasticsearch",
+                "query_string": ""
+              },
+              "search_types": [
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "f53dd7f6-c09d-41ff-977d-2e5c35d42581"
+                  ],
+                  "series": [
+                    {
+                      "type": "count",
+                      "id": "count()",
+                      "field": null
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "time",
+                      "field": "timestamp",
+                      "interval": {
+                        "type": "auto",
+                        "scaling": 1
+                      }
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "4ef60b6c-a5ac-42f8-8a3c-0b7a51f90ceb",
+                  "column_groups": [
+                    {
+                      "type": "values",
+                      "field": "logger",
+                      "limit": 15
+                    }
+                  ],
+                  "sort": []
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": null,
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "offset": 0,
+                  "streams": [
+                    "f53dd7f6-c09d-41ff-977d-2e5c35d42581"
+                  ],
+                  "filter": null,
+                  "decorators": [],
+                  "type": "messages",
+                  "id": "866b3ffe-ade3-4199-b394-795f43dd620b",
+                  "limit": 150
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "f53dd7f6-c09d-41ff-977d-2e5c35d42581"
+                  ],
+                  "series": [
+                    {
+                      "type": "count",
+                      "id": "count()",
+                      "field": null
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "values",
+                      "field": "logger",
+                      "limit": 15
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "a12d66b9-0ab0-44ce-a56e-ff8550aa3232",
+                  "column_groups": [],
+                  "sort": []
+                }
+              ]
+            },
+            {
+              "id": "56b838c8-0f2e-4381-9081-8ea935f4eba9",
+              "timerange": {
+                "type": "relative",
+                "range": 300
+              },
+              "query": {
+                "type": "elasticsearch",
+                "query_string": ""
+              },
+              "search_types": [
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "4c100b40-84e8-4e10-b929-0007652335f7"
+                  ],
+                  "series": [
+                    {
+                      "type": "count",
+                      "id": "count()",
+                      "field": null
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "time",
+                      "field": "timestamp",
+                      "interval": {
+                        "type": "auto",
+                        "scaling": 1
+                      }
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "b1504eac-1ba4-44d5-ac74-e691e049ff86",
+                  "column_groups": [
+                    {
+                      "type": "values",
+                      "field": "logger",
+                      "limit": 15
+                    }
+                  ],
+                  "sort": []
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "4c100b40-84e8-4e10-b929-0007652335f7"
+                  ],
+                  "series": [
+                    {
+                      "type": "count",
+                      "id": "count()",
+                      "field": null
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "values",
+                      "field": "logger",
+                      "limit": 15
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "03646cba-4717-406d-9a2c-b604ade8df2c",
+                  "column_groups": [],
+                  "sort": []
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": null,
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "offset": 0,
+                  "streams": [
+                    "4c100b40-84e8-4e10-b929-0007652335f7"
+                  ],
+                  "filter": null,
+                  "decorators": [],
+                  "type": "messages",
+                  "id": "fadc96ae-4fa6-440d-800b-2d4fb6aec222",
+                  "limit": 150
+                }
+              ]
+            },
+            {
+              "id": "dd37c31b-a023-4434-a40f-e85805a90262",
+              "timerange": {
+                "type": "relative",
+                "range": 300
+              },
+              "query": {
+                "type": "elasticsearch",
+                "query_string": ""
+              },
+              "search_types": [
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "series": [
+                    {
+                      "type": "count",
+                      "id": "count()",
+                      "field": null
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "time",
+                      "field": "timestamp",
+                      "interval": {
+                        "type": "auto",
+                        "scaling": 1
+                      }
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "f3849af9-ea5f-4250-8059-385e600e2180",
+                  "column_groups": [],
+                  "sort": []
+                },
+                {
+                  "name": "events",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "id": "0dbd1fff-8ed3-4a8b-a553-f4402a95e345",
+                  "type": "events",
+                  "filter": null
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "series": [
+                    {
+                      "type": "sum",
+                      "id": "sum(memory_used)",
+                      "field": "memory_used"
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "time",
+                      "field": "timestamp",
+                      "interval": {
+                        "type": "auto",
+                        "scaling": 1
+                      }
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "cef3fdb7-d494-484c-8e89-6e829c92b735",
+                  "column_groups": [
+                    {
+                      "type": "values",
+                      "field": "logger",
+                      "limit": 15
+                    }
+                  ],
+                  "sort": []
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "series": [
+                    {
+                      "type": "sum",
+                      "id": "sum(memory_available)",
+                      "field": "memory_available"
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "time",
+                      "field": "timestamp",
+                      "interval": {
+                        "type": "auto",
+                        "scaling": 1
+                      }
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "ba006e30-45e4-4c0f-924d-2ddddc39cbf7",
+                  "column_groups": [
+                    {
+                      "type": "values",
+                      "field": "logger",
+                      "limit": 15
+                    }
+                  ],
+                  "sort": []
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "series": [
+                    {
+                      "type": "stddev",
+                      "id": "stddev(disk_read_bytes)",
+                      "field": "disk_read_bytes"
+                    },
+                    {
+                      "type": "stddev",
+                      "id": "stddev(disk_write_bytes)",
+                      "field": "disk_write_bytes"
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "time",
+                      "field": "timestamp",
+                      "interval": {
+                        "type": "auto",
+                        "scaling": 1
+                      }
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "dc0be9e1-a196-4d7b-adae-5e6c5354eca5",
+                  "column_groups": [],
+                  "sort": []
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "series": [
+                    {
+                      "type": "sum",
+                      "id": "sum(memory_free)",
+                      "field": "memory_free"
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "time",
+                      "field": "timestamp",
+                      "interval": {
+                        "type": "auto",
+                        "scaling": 1
+                      }
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "b1ea6f25-c529-49b0-919a-ba2a83b6ba0e",
+                  "column_groups": [
+                    {
+                      "type": "values",
+                      "field": "logger",
+                      "limit": 15
+                    }
+                  ],
+                  "sort": []
+                },
+                {
+                  "name": "events",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "id": "a1d449ef-ae95-46d0-97e4-a5a40ad9b683",
+                  "type": "events",
+                  "filter": null
+                },
+                {
+                  "name": "events",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "id": "f4742f9a-ea0b-4aa8-9c83-d2e59ea1ef9e",
+                  "type": "events",
+                  "filter": null
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "series": [
+                    {
+                      "type": "stddev",
+                      "id": "stddev(net_bytes_recv)",
+                      "field": "net_bytes_recv"
+                    },
+                    {
+                      "type": "stddev",
+                      "id": "stddev(net_bytes_sent)",
+                      "field": "net_bytes_sent"
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "time",
+                      "field": "timestamp",
+                      "interval": {
+                        "type": "auto",
+                        "scaling": 1
+                      }
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "3b3aec76-24aa-42ec-94fe-db5b0cbbbe9e",
+                  "column_groups": [],
+                  "sort": []
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "series": [
+                    {
+                      "type": "max",
+                      "id": "max(disk_read_counter)",
+                      "field": "disk_read_counter"
+                    },
+                    {
+                      "type": "max",
+                      "id": "max(disk_write_count)",
+                      "field": "disk_write_count"
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "time",
+                      "field": "timestamp",
+                      "interval": {
+                        "type": "auto",
+                        "scaling": 1
+                      }
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "381f3ed9-a2cb-40b6-a97f-4a704fdaf753",
+                  "column_groups": [],
+                  "sort": []
+                },
+                {
+                  "name": "events",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "id": "f1b47982-e951-4b4f-9c9e-a92910f69449",
+                  "type": "events",
+                  "filter": null
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": null,
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "offset": 0,
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "filter": null,
+                  "decorators": [],
+                  "type": "messages",
+                  "id": "2e87439b-0302-4019-abb9-40e39673fa00",
+                  "limit": 150
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "series": [
+                    {
+                      "type": "count",
+                      "id": "count()",
+                      "field": null
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "values",
+                      "field": "logger",
+                      "limit": 15
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "3ffb328d-8f3f-41f9-86b3-766486416fb1",
+                  "column_groups": [],
+                  "sort": []
+                },
+                {
+                  "name": "events",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "id": "cf488a9e-01ea-4a32-8b7c-01f11a101263",
+                  "type": "events",
+                  "filter": null
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "series": [
+                    {
+                      "type": "max",
+                      "id": "max(net_packets_recv)",
+                      "field": "net_packets_recv"
+                    },
+                    {
+                      "type": "max",
+                      "id": "max(net_packets_sent)",
+                      "field": "net_packets_sent"
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "time",
+                      "field": "timestamp",
+                      "interval": {
+                        "type": "auto",
+                        "scaling": 1
+                      }
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "f0be5378-ce8d-4c0a-a6d9-dbcca6a9f1ba",
+                  "column_groups": [],
+                  "sort": []
+                },
+                {
+                  "name": "events",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "id": "81d73ae8-82d1-406a-b153-ffcbd00e6970",
+                  "type": "events",
+                  "filter": null
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "series": [
+                    {
+                      "type": "avg",
+                      "id": "avg(cpu_percent)",
+                      "field": "cpu_percent"
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "time",
+                      "field": "timestamp",
+                      "interval": {
+                        "type": "auto",
+                        "scaling": 1
+                      }
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "9f28948a-ba47-4452-bb49-0484eb0cf13d",
+                  "column_groups": [
+                    {
+                      "type": "values",
+                      "field": "logger",
+                      "limit": 15
+                    }
+                  ],
+                  "sort": [
+                    {
+                      "type": "pivot",
+                      "field": "timestamp",
+                      "direction": "Ascending"
+                    }
+                  ]
+                },
+                {
+                  "name": "events",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "id": "09d84ec5-b6f9-455e-98bc-ab78e38e3506",
+                  "type": "events",
+                  "filter": null
+                },
+                {
+                  "name": "events",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "id": "da6a2713-6730-4809-b67c-4a6380be1566",
+                  "type": "events",
+                  "filter": null
+                },
+                {
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "name": "chart",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "series": [
+                    {
+                      "type": "sum",
+                      "id": "sum(memory_total)",
+                      "field": "memory_total"
+                    }
+                  ],
+                  "filter": null,
+                  "rollup": true,
+                  "row_groups": [
+                    {
+                      "type": "time",
+                      "field": "timestamp",
+                      "interval": {
+                        "type": "auto",
+                        "scaling": 1
+                      }
+                    }
+                  ],
+                  "type": "pivot",
+                  "id": "980ac045-adab-4374-a88a-b237c7348f98",
+                  "column_groups": [
+                    {
+                      "type": "values",
+                      "field": "logger",
+                      "limit": 15
+                    }
+                  ],
+                  "sort": []
+                },
+                {
+                  "name": "events",
+                  "timerange": {
+                    "type": "relative",
+                    "range": 300
+                  },
+                  "query": {
+                    "type": "elasticsearch",
+                    "query_string": ""
+                  },
+                  "streams": [
+                    "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                  ],
+                  "id": "482d3c44-6869-4651-93bc-ad7a7e9bc5a0",
+                  "type": "events",
+                  "filter": null
+                }
+              ]
+            }
+          ],
+          "parameters": [],
+          "requires": {},
+          "owner": null,
+          "created_at": "2021-02-14T18:41:17.130Z"
+        },
+        "created_at": "2021-02-14T16:38:10.828Z",
+        "requires": {},
+        "state": {
+          "56b838c8-0f2e-4381-9081-8ea935f4eba9": {
+            "selected_fields": null,
+            "static_message_list_id": null,
+            "titles": {
+              "tab": {
+                "title": "Worker Analysis"
+              },
+              "widget": {
+                "d34ea404-5f70-44e4-a170-c82c8370caa0": "Worker Message Table",
+                "91a6199f-c1a2-42d5-b5ed-7c83cb132653": "Worker Message Sources",
+                "fa41b1f4-61ad-4733-bf7f-a06606fcfb7f": "Worker Message Count"
+              }
+            },
+            "widgets": [
+              {
+                "id": "fa41b1f4-61ad-4733-bf7f-a06606fcfb7f",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "4c100b40-84e8-4e10-b929-0007652335f7"
+                ],
+                "config": {
+                  "visualization": "bar",
+                  "event_annotation": false,
+                  "row_pivots": [
+                    {
+                      "field": "timestamp",
+                      "type": "time",
+                      "config": {
+                        "interval": {
+                          "type": "auto",
+                          "scaling": null
+                        }
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "count()"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [
+                    {
+                      "field": "logger",
+                      "type": "values",
+                      "config": {
+                        "limit": 15
+                      }
+                    }
+                  ],
+                  "visualization_config": null,
+                  "formatting_settings": null,
+                  "sort": []
+                }
+              },
+              {
+                "id": "d34ea404-5f70-44e4-a170-c82c8370caa0",
+                "type": "messages",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "4c100b40-84e8-4e10-b929-0007652335f7"
+                ],
+                "config": {
+                  "fields": [
+                    "timestamp",
+                    "source",
+                    "gl2_remote_ip",
+                    "gl2_remote_port"
+                  ],
+                  "show_message_row": true,
+                  "decorators": [],
+                  "sort": [
+                    {
+                      "type": "pivot",
+                      "field": "timestamp",
+                      "direction": "Descending"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "91a6199f-c1a2-42d5-b5ed-7c83cb132653",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "4c100b40-84e8-4e10-b929-0007652335f7"
+                ],
+                "config": {
+                  "visualization": "pie",
+                  "event_annotation": false,
+                  "row_pivots": [
+                    {
+                      "field": "logger",
+                      "type": "values",
+                      "config": {
+                        "limit": 15
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "count()"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [],
+                  "visualization_config": null,
+                  "formatting_settings": null,
+                  "sort": []
+                }
+              }
+            ],
+            "widget_mapping": {
+              "fa41b1f4-61ad-4733-bf7f-a06606fcfb7f": [
+                "b1504eac-1ba4-44d5-ac74-e691e049ff86"
+              ],
+              "d34ea404-5f70-44e4-a170-c82c8370caa0": [
+                "fadc96ae-4fa6-440d-800b-2d4fb6aec222"
+              ],
+              "91a6199f-c1a2-42d5-b5ed-7c83cb132653": [
+                "03646cba-4717-406d-9a2c-b604ade8df2c"
+              ]
+            },
+            "positions": {
+              "fa41b1f4-61ad-4733-bf7f-a06606fcfb7f": {
+                "col": 5,
+                "row": 1,
+                "height": 4,
+                "width": 8
+              },
+              "d34ea404-5f70-44e4-a170-c82c8370caa0": {
+                "col": 1,
+                "row": 5,
+                "height": 5,
+                "width": "Infinity"
+              },
+              "91a6199f-c1a2-42d5-b5ed-7c83cb132653": {
+                "col": 1,
+                "row": 1,
+                "height": 4,
+                "width": 4
+              }
+            },
+            "formatting": {
+              "highlighting": []
+            },
+            "display_mode_settings": {
+              "positions": {}
+            }
+          },
+          "dd37c31b-a023-4434-a40f-e85805a90262": {
+            "selected_fields": null,
+            "static_message_list_id": null,
+            "titles": {
+              "tab": {
+                "title": "Sysmetrics Analysis"
+              },
+              "widget": {
+                "4673b55c-5250-4d19-af0e-766e474ba0b0": "Total Memory",
+                "a7215c99-0f26-4306-897b-db4647ec2d1a": "Network Sent/Received Packets",
+                "0f4779d2-255b-418a-bd35-bafd686d45cd": "Disk Read/Write Count",
+                "c6af4e71-a10f-4f4d-9026-f90cbbb9b040": "Network Sent/Received Bytes",
+                "a8d9820b-aa03-445d-a1d3-8ed824493235": "Disk Read/Write Bytes",
+                "e065ad5d-a40a-4c79-9cd5-72b77d0e35e1": "Message Sources",
+                "d191dc6b-785a-4bb8-ba23-77cc0be98d91": "Memory Available",
+                "bdb6ec45-abd7-4641-9c7d-2a8bde9c93f4": "Memory Used",
+                "05604acf-ed1b-4f76-b7e6-30b879c8ac87": "Message Count",
+                "85826f7d-5393-491c-aa0c-a31d47542a22": "Sysmetrics Message Table",
+                "8f85bddc-9c2b-4ff7-b137-d897080801c5": "Free Memory"
+              }
+            },
+            "widgets": [
+              {
+                "id": "ba6b6172-e81c-4e9f-b3d9-52ca5ac7c255",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                ],
+                "config": {
+                  "visualization": "line",
+                  "event_annotation": false,
+                  "row_pivots": [
+                    {
+                      "field": "timestamp",
+                      "type": "time",
+                      "config": {
+                        "interval": {
+                          "type": "auto",
+                          "scaling": null
+                        }
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "avg(cpu_percent)"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [
+                    {
+                      "field": "logger",
+                      "type": "values",
+                      "config": {
+                        "limit": 15
+                      }
+                    }
+                  ],
+                  "visualization_config": null,
+                  "formatting_settings": null,
+                  "sort": [
+                    {
+                      "type": "pivot",
+                      "field": "timestamp",
+                      "direction": "Ascending"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "05604acf-ed1b-4f76-b7e6-30b879c8ac87",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                ],
+                "config": {
+                  "visualization": "bar",
+                  "event_annotation": true,
+                  "row_pivots": [
+                    {
+                      "field": "timestamp",
+                      "type": "time",
+                      "config": {
+                        "interval": {
+                          "type": "auto",
+                          "scaling": null
+                        }
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "count()"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [],
+                  "visualization_config": {
+                    "barmode": "group"
+                  },
+                  "formatting_settings": {
+                    "chart_colors": [
+                      {
+                        "field_name": "count()",
+                        "chart_color": "#ffcdd2"
+                      }
+                    ]
+                  },
+                  "sort": []
+                }
+              },
+              {
+                "id": "a8d9820b-aa03-445d-a1d3-8ed824493235",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                ],
+                "config": {
+                  "visualization": "line",
+                  "event_annotation": true,
+                  "row_pivots": [
+                    {
+                      "field": "timestamp",
+                      "type": "time",
+                      "config": {
+                        "interval": {
+                          "type": "auto",
+                          "scaling": null
+                        }
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "stddev(disk_read_bytes)"
+                    },
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "stddev(disk_write_bytes)"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [],
+                  "visualization_config": null,
+                  "formatting_settings": {
+                    "chart_colors": [
+                      {
+                        "field_name": "stddev(disk_read_bytes)",
+                        "chart_color": "#90a4ae"
+                      },
+                      {
+                        "field_name": "stddev(disk_write_bytes)",
+                        "chart_color": "#cddc39"
+                      }
+                    ]
+                  },
+                  "sort": []
+                }
+              },
+              {
+                "id": "e065ad5d-a40a-4c79-9cd5-72b77d0e35e1",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                ],
+                "config": {
+                  "visualization": "pie",
+                  "event_annotation": false,
+                  "row_pivots": [
+                    {
+                      "field": "logger",
+                      "type": "values",
+                      "config": {
+                        "limit": 15
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "count()"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [],
+                  "visualization_config": null,
+                  "formatting_settings": null,
+                  "sort": []
+                }
+              },
+              {
+                "id": "8f85bddc-9c2b-4ff7-b137-d897080801c5",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                ],
+                "config": {
+                  "visualization": "bar",
+                  "event_annotation": true,
+                  "row_pivots": [
+                    {
+                      "field": "timestamp",
+                      "type": "time",
+                      "config": {
+                        "interval": {
+                          "type": "auto",
+                          "scaling": null
+                        }
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "sum(memory_free)"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [
+                    {
+                      "field": "logger",
+                      "type": "values",
+                      "config": {
+                        "limit": 15
+                      }
+                    }
+                  ],
+                  "visualization_config": {
+                    "barmode": "stack"
+                  },
+                  "formatting_settings": null,
+                  "sort": []
+                }
+              },
+              {
+                "id": "a7215c99-0f26-4306-897b-db4647ec2d1a",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                ],
+                "config": {
+                  "visualization": "line",
+                  "event_annotation": true,
+                  "row_pivots": [
+                    {
+                      "field": "timestamp",
+                      "type": "time",
+                      "config": {
+                        "interval": {
+                          "type": "auto",
+                          "scaling": null
+                        }
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "max(net_packets_recv)"
+                    },
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "max(net_packets_sent)"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [],
+                  "visualization_config": null,
+                  "formatting_settings": {
+                    "chart_colors": [
+                      {
+                        "field_name": "max(net_packets_recv)",
+                        "chart_color": "#9c27b0"
+                      },
+                      {
+                        "field_name": "max(net_packets_sent)",
+                        "chart_color": "#00bcd4"
+                      }
+                    ]
+                  },
+                  "sort": []
+                }
+              },
+              {
+                "id": "d191dc6b-785a-4bb8-ba23-77cc0be98d91",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                ],
+                "config": {
+                  "visualization": "bar",
+                  "event_annotation": true,
+                  "row_pivots": [
+                    {
+                      "field": "timestamp",
+                      "type": "time",
+                      "config": {
+                        "interval": {
+                          "type": "auto",
+                          "scaling": null
+                        }
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "sum(memory_available)"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [
+                    {
+                      "field": "logger",
+                      "type": "values",
+                      "config": {
+                        "limit": 15
+                      }
+                    }
+                  ],
+                  "visualization_config": {
+                    "barmode": "stack"
+                  },
+                  "formatting_settings": null,
+                  "sort": []
+                }
+              },
+              {
+                "id": "4673b55c-5250-4d19-af0e-766e474ba0b0",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                ],
+                "config": {
+                  "visualization": "bar",
+                  "event_annotation": true,
+                  "row_pivots": [
+                    {
+                      "field": "timestamp",
+                      "type": "time",
+                      "config": {
+                        "interval": {
+                          "type": "auto",
+                          "scaling": null
+                        }
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "sum(memory_total)"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [
+                    {
+                      "field": "logger",
+                      "type": "values",
+                      "config": {
+                        "limit": 15
+                      }
+                    }
+                  ],
+                  "visualization_config": {
+                    "barmode": "stack"
+                  },
+                  "formatting_settings": null,
+                  "sort": []
+                }
+              },
+              {
+                "id": "c6af4e71-a10f-4f4d-9026-f90cbbb9b040",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                ],
+                "config": {
+                  "visualization": "line",
+                  "event_annotation": true,
+                  "row_pivots": [
+                    {
+                      "field": "timestamp",
+                      "type": "time",
+                      "config": {
+                        "interval": {
+                          "type": "auto",
+                          "scaling": null
+                        }
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "stddev(net_bytes_recv)"
+                    },
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "stddev(net_bytes_sent)"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [],
+                  "visualization_config": null,
+                  "formatting_settings": {
+                    "chart_colors": [
+                      {
+                        "field_name": "stddev(net_bytes_recv)",
+                        "chart_color": "#9c27b0"
+                      },
+                      {
+                        "field_name": "stddev(net_bytes_sent)",
+                        "chart_color": "#00bcd4"
+                      }
+                    ]
+                  },
+                  "sort": []
+                }
+              },
+              {
+                "id": "bdb6ec45-abd7-4641-9c7d-2a8bde9c93f4",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                ],
+                "config": {
+                  "visualization": "bar",
+                  "event_annotation": true,
+                  "row_pivots": [
+                    {
+                      "field": "timestamp",
+                      "type": "time",
+                      "config": {
+                        "interval": {
+                          "type": "auto",
+                          "scaling": null
+                        }
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "sum(memory_used)"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [
+                    {
+                      "field": "logger",
+                      "type": "values",
+                      "config": {
+                        "limit": 15
+                      }
+                    }
+                  ],
+                  "visualization_config": {
+                    "barmode": "stack"
+                  },
+                  "formatting_settings": null,
+                  "sort": []
+                }
+              },
+              {
+                "id": "85826f7d-5393-491c-aa0c-a31d47542a22",
+                "type": "messages",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                ],
+                "config": {
+                  "fields": [
+                    "timestamp",
+                    "source",
+                    "gl2_remote_ip",
+                    "gl2_remote_port"
+                  ],
+                  "show_message_row": true,
+                  "decorators": [],
+                  "sort": [
+                    {
+                      "type": "pivot",
+                      "field": "timestamp",
+                      "direction": "Descending"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "0f4779d2-255b-418a-bd35-bafd686d45cd",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "ff1d54ed-6d0d-487b-b339-3e7d04a71cb7"
+                ],
+                "config": {
+                  "visualization": "line",
+                  "event_annotation": true,
+                  "row_pivots": [
+                    {
+                      "field": "timestamp",
+                      "type": "time",
+                      "config": {
+                        "interval": {
+                          "type": "auto",
+                          "scaling": null
+                        }
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "max(disk_read_counter)"
+                    },
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "max(disk_write_count)"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [],
+                  "visualization_config": null,
+                  "formatting_settings": {
+                    "chart_colors": [
+                      {
+                        "field_name": "max(disk_read_counter)",
+                        "chart_color": "#90a4ae"
+                      },
+                      {
+                        "field_name": "max(disk_write_count)",
+                        "chart_color": "#cddc39"
+                      }
+                    ]
+                  },
+                  "sort": []
+                }
+              }
+            ],
+            "widget_mapping": {
+              "4673b55c-5250-4d19-af0e-766e474ba0b0": [
+                "980ac045-adab-4374-a88a-b237c7348f98",
+                "a1d449ef-ae95-46d0-97e4-a5a40ad9b683"
+              ],
+              "a7215c99-0f26-4306-897b-db4647ec2d1a": [
+                "f0be5378-ce8d-4c0a-a6d9-dbcca6a9f1ba",
+                "81d73ae8-82d1-406a-b153-ffcbd00e6970"
+              ],
+              "0f4779d2-255b-418a-bd35-bafd686d45cd": [
+                "482d3c44-6869-4651-93bc-ad7a7e9bc5a0",
+                "381f3ed9-a2cb-40b6-a97f-4a704fdaf753"
+              ],
+              "c6af4e71-a10f-4f4d-9026-f90cbbb9b040": [
+                "3b3aec76-24aa-42ec-94fe-db5b0cbbbe9e",
+                "da6a2713-6730-4809-b67c-4a6380be1566"
+              ],
+              "a8d9820b-aa03-445d-a1d3-8ed824493235": [
+                "f1b47982-e951-4b4f-9c9e-a92910f69449",
+                "dc0be9e1-a196-4d7b-adae-5e6c5354eca5"
+              ],
+              "e065ad5d-a40a-4c79-9cd5-72b77d0e35e1": [
+                "3ffb328d-8f3f-41f9-86b3-766486416fb1"
+              ],
+              "d191dc6b-785a-4bb8-ba23-77cc0be98d91": [
+                "ba006e30-45e4-4c0f-924d-2ddddc39cbf7",
+                "f4742f9a-ea0b-4aa8-9c83-d2e59ea1ef9e"
+              ],
+              "bdb6ec45-abd7-4641-9c7d-2a8bde9c93f4": [
+                "09d84ec5-b6f9-455e-98bc-ab78e38e3506",
+                "cef3fdb7-d494-484c-8e89-6e829c92b735"
+              ],
+              "05604acf-ed1b-4f76-b7e6-30b879c8ac87": [
+                "0dbd1fff-8ed3-4a8b-a553-f4402a95e345",
+                "f3849af9-ea5f-4250-8059-385e600e2180"
+              ],
+              "85826f7d-5393-491c-aa0c-a31d47542a22": [
+                "2e87439b-0302-4019-abb9-40e39673fa00"
+              ],
+              "8f85bddc-9c2b-4ff7-b137-d897080801c5": [
+                "cf488a9e-01ea-4a32-8b7c-01f11a101263",
+                "b1ea6f25-c529-49b0-919a-ba2a83b6ba0e"
+              ],
+              "ba6b6172-e81c-4e9f-b3d9-52ca5ac7c255": [
+                "9f28948a-ba47-4452-bb49-0484eb0cf13d"
+              ]
+            },
+            "positions": {
+              "4673b55c-5250-4d19-af0e-766e474ba0b0": {
+                "col": 1,
+                "row": 5,
+                "height": 4,
+                "width": 6
+              },
+              "a7215c99-0f26-4306-897b-db4647ec2d1a": {
+                "col": 7,
+                "row": 13,
+                "height": 4,
+                "width": 3
+              },
+              "0f4779d2-255b-418a-bd35-bafd686d45cd": {
+                "col": 1,
+                "row": 13,
+                "height": 4,
+                "width": 3
+              },
+              "c6af4e71-a10f-4f4d-9026-f90cbbb9b040": {
+                "col": 10,
+                "row": 13,
+                "height": 4,
+                "width": 3
+              },
+              "a8d9820b-aa03-445d-a1d3-8ed824493235": {
+                "col": 4,
+                "row": 13,
+                "height": 4,
+                "width": 3
+              },
+              "e065ad5d-a40a-4c79-9cd5-72b77d0e35e1": {
+                "col": 1,
+                "row": 17,
+                "height": 4,
+                "width": 4
+              },
+              "d191dc6b-785a-4bb8-ba23-77cc0be98d91": {
+                "col": 1,
+                "row": 9,
+                "height": 4,
+                "width": 6
+              },
+              "bdb6ec45-abd7-4641-9c7d-2a8bde9c93f4": {
+                "col": 7,
+                "row": 5,
+                "height": 4,
+                "width": 6
+              },
+              "05604acf-ed1b-4f76-b7e6-30b879c8ac87": {
+                "col": 5,
+                "row": 17,
+                "height": 4,
+                "width": 8
+              },
+              "85826f7d-5393-491c-aa0c-a31d47542a22": {
+                "col": 1,
+                "row": 21,
+                "height": 5,
+                "width": "Infinity"
+              },
+              "8f85bddc-9c2b-4ff7-b137-d897080801c5": {
+                "col": 7,
+                "row": 9,
+                "height": 4,
+                "width": 6
+              },
+              "ba6b6172-e81c-4e9f-b3d9-52ca5ac7c255": {
+                "col": 1,
+                "row": 1,
+                "height": 4,
+                "width": "Infinity"
+              }
+            },
+            "formatting": {
+              "highlighting": []
+            },
+            "display_mode_settings": {
+              "positions": {}
+            }
+          },
+          "cfd3a3c4-b3e9-40b5-9650-d3ea54cd8719": {
+            "selected_fields": null,
+            "static_message_list_id": null,
+            "titles": {
+              "tab": {
+                "title": "Director Analysis"
+              },
+              "widget": {
+                "04add6d9-e6b4-442e-b288-11886782478b": "Director Message Table",
+                "727bfac7-deda-4b93-a552-e893e29150fa": "Director Message Sources",
+                "5112c924-14de-4e23-8e3a-95894e97772c": "Director Message Count"
+              }
+            },
+            "widgets": [
+              {
+                "id": "5112c924-14de-4e23-8e3a-95894e97772c",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "f53dd7f6-c09d-41ff-977d-2e5c35d42581"
+                ],
+                "config": {
+                  "visualization": "bar",
+                  "event_annotation": false,
+                  "row_pivots": [
+                    {
+                      "field": "timestamp",
+                      "type": "time",
+                      "config": {
+                        "interval": {
+                          "type": "auto",
+                          "scaling": null
+                        }
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "count()"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [
+                    {
+                      "field": "logger",
+                      "type": "values",
+                      "config": {
+                        "limit": 15
+                      }
+                    }
+                  ],
+                  "visualization_config": null,
+                  "formatting_settings": null,
+                  "sort": []
+                }
+              },
+              {
+                "id": "727bfac7-deda-4b93-a552-e893e29150fa",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "f53dd7f6-c09d-41ff-977d-2e5c35d42581"
+                ],
+                "config": {
+                  "visualization": "pie",
+                  "event_annotation": false,
+                  "row_pivots": [
+                    {
+                      "field": "logger",
+                      "type": "values",
+                      "config": {
+                        "limit": 15
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "count()"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [],
+                  "visualization_config": null,
+                  "formatting_settings": null,
+                  "sort": []
+                }
+              },
+              {
+                "id": "04add6d9-e6b4-442e-b288-11886782478b",
+                "type": "messages",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "f53dd7f6-c09d-41ff-977d-2e5c35d42581"
+                ],
+                "config": {
+                  "fields": [
+                    "timestamp",
+                    "source",
+                    "gl2_remote_ip",
+                    "gl2_remote_port"
+                  ],
+                  "show_message_row": true,
+                  "decorators": [],
+                  "sort": [
+                    {
+                      "type": "pivot",
+                      "field": "timestamp",
+                      "direction": "Descending"
+                    }
+                  ]
+                }
+              }
+            ],
+            "widget_mapping": {
+              "5112c924-14de-4e23-8e3a-95894e97772c": [
+                "4ef60b6c-a5ac-42f8-8a3c-0b7a51f90ceb"
+              ],
+              "04add6d9-e6b4-442e-b288-11886782478b": [
+                "866b3ffe-ade3-4199-b394-795f43dd620b"
+              ],
+              "727bfac7-deda-4b93-a552-e893e29150fa": [
+                "a12d66b9-0ab0-44ce-a56e-ff8550aa3232"
+              ]
+            },
+            "positions": {
+              "5112c924-14de-4e23-8e3a-95894e97772c": {
+                "col": 5,
+                "row": 1,
+                "height": 4,
+                "width": 8
+              },
+              "04add6d9-e6b4-442e-b288-11886782478b": {
+                "col": 1,
+                "row": 5,
+                "height": 5,
+                "width": "Infinity"
+              },
+              "727bfac7-deda-4b93-a552-e893e29150fa": {
+                "col": 1,
+                "row": 1,
+                "height": 4,
+                "width": 4
+              }
+            },
+            "formatting": {
+              "highlighting": []
+            },
+            "display_mode_settings": {
+              "positions": {}
+            }
+          },
+          "a734cad6-5744-4466-a393-49dcee7d7b5d": {
+            "selected_fields": null,
+            "static_message_list_id": null,
+            "titles": {
+              "tab": {
+                "title": "TTP Analysis"
+              },
+              "widget": {
+                "b031c47b-6a71-4da1-b9c5-cf966fdf338b": "TTP Message Table",
+                "749ad7b1-251c-49c3-91be-fec1e192752e": "TTP Message Sources",
+                "bac2bc76-e37d-4e12-9ee7-3bdaa7f12eb8": "TTP Message Count"
+              }
+            },
+            "widgets": [
+              {
+                "id": "bac2bc76-e37d-4e12-9ee7-3bdaa7f12eb8",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "1420ba98-8812-4ac7-88f3-7d6b620f2bba"
+                ],
+                "config": {
+                  "visualization": "bar",
+                  "event_annotation": false,
+                  "row_pivots": [
+                    {
+                      "field": "timestamp",
+                      "type": "time",
+                      "config": {
+                        "interval": {
+                          "type": "auto",
+                          "scaling": null
+                        }
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "count()"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [
+                    {
+                      "field": "logger",
+                      "type": "values",
+                      "config": {
+                        "limit": 15
+                      }
+                    }
+                  ],
+                  "visualization_config": null,
+                  "formatting_settings": null,
+                  "sort": []
+                }
+              },
+              {
+                "id": "749ad7b1-251c-49c3-91be-fec1e192752e",
+                "type": "aggregation",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "1420ba98-8812-4ac7-88f3-7d6b620f2bba"
+                ],
+                "config": {
+                  "visualization": "pie",
+                  "event_annotation": false,
+                  "row_pivots": [
+                    {
+                      "field": "logger",
+                      "type": "values",
+                      "config": {
+                        "limit": 15
+                      }
+                    }
+                  ],
+                  "series": [
+                    {
+                      "config": {
+                        "name": null
+                      },
+                      "function": "count()"
+                    }
+                  ],
+                  "rollup": true,
+                  "column_pivots": [],
+                  "visualization_config": null,
+                  "formatting_settings": null,
+                  "sort": []
+                }
+              },
+              {
+                "id": "b031c47b-6a71-4da1-b9c5-cf966fdf338b",
+                "type": "messages",
+                "filter": null,
+                "timerange": {
+                  "type": "relative",
+                  "range": 300
+                },
+                "query": {
+                  "type": "elasticsearch",
+                  "query_string": ""
+                },
+                "streams": [
+                  "1420ba98-8812-4ac7-88f3-7d6b620f2bba"
+                ],
+                "config": {
+                  "fields": [
+                    "timestamp",
+                    "source",
+                    "gl2_remote_ip",
+                    "gl2_remote_port"
+                  ],
+                  "show_message_row": true,
+                  "decorators": [],
+                  "sort": [
+                    {
+                      "type": "pivot",
+                      "field": "timestamp",
+                      "direction": "Descending"
+                    }
+                  ]
+                }
+              }
+            ],
+            "widget_mapping": {
+              "bac2bc76-e37d-4e12-9ee7-3bdaa7f12eb8": [
+                "a3cbb23d-91ce-4a0a-8090-e6c519fb67bd"
+              ],
+              "b031c47b-6a71-4da1-b9c5-cf966fdf338b": [
+                "112c02db-7eaa-4c7a-a961-220c0d3cfe86"
+              ],
+              "749ad7b1-251c-49c3-91be-fec1e192752e": [
+                "94cf8da5-6a07-4ed7-ae35-811489e149c3"
+              ]
+            },
+            "positions": {
+              "bac2bc76-e37d-4e12-9ee7-3bdaa7f12eb8": {
+                "col": 5,
+                "row": 1,
+                "height": 4,
+                "width": 8
+              },
+              "b031c47b-6a71-4da1-b9c5-cf966fdf338b": {
+                "col": 1,
+                "row": 5,
+                "height": 5,
+                "width": "Infinity"
+              },
+              "749ad7b1-251c-49c3-91be-fec1e192752e": {
+                "col": 1,
+                "row": 1,
+                "height": 4,
+                "width": 4
+              }
+            },
+            "formatting": {
+              "highlighting": []
+            },
+            "display_mode_settings": {
+              "positions": {}
+            }
+          }
+        },
+        "properties": [],
+        "owner": null,
+        "title": {
+          "@type": "string",
+          "@value": "Synergos Dashboard"
+        },
+        "type": "DASHBOARD",
+        "description": {
+          "@type": "string",
+          "@value": ""
+        }
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=4.0.1+6a0cc0b"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "input",
+        "version": "1"
+      },
+      "id": "4771333c-023d-41d6-9ffb-9e86a3ccc89b",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "Sysmetrics Logs"
+        },
+        "configuration": {
+          "tls_key_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "port": {
+            "@type": "integer",
+            "@value": 9100
+          },
+          "tls_enable": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "use_null_delimiter": {
+            "@type": "boolean",
+            "@value": true
+          },
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": 1048576
+          },
+          "tcp_keepalive": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "tls_client_auth_cert_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          },
+          "tls_cert_file": {
+            "@type": "string",
+            "@value": ""
+          },
+          "max_message_size": {
+            "@type": "integer",
+            "@value": 2097152
+          },
+          "tls_client_auth": {
+            "@type": "string",
+            "@value": "disabled"
+          },
+          "decompress_size_limit": {
+            "@type": "integer",
+            "@value": 8388608
+          },
+          "number_worker_threads": {
+            "@type": "integer",
+            "@value": 4
+          },
+          "tls_key_password": {
+            "@type": "string",
+            "@value": ""
+          }
+        },
+        "static_fields": {},
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog2.inputs.gelf.tcp.GELFTCPInput"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": []
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=4.0.1+6a0cc0b"
+        }
+      ]
+    }
+  ]
+}
