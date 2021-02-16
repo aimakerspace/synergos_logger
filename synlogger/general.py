@@ -273,7 +273,12 @@ class SysmetricLogger(RootLogger):
             signame (str): Signal recieved
 
         """
-        self.synlog.info(f"Signal code {signnum} on {frame} has been received. Stopping sysmetric operations...")        
+        signame = signal.Signals(signnum).name
+        self.synlog.info(
+            f"Signal {signame} of code {signnum} on {frame} has been received.",
+            signame=signame,
+            signnum=signnum
+        )        
 
         # Zero is considered “successful termination” and any nonzero value is 
         # considered “abnormal termination” by shells and the like.

@@ -160,13 +160,12 @@ class RootLogger(AbstractLogger):
                     structlog.stdlib.filter_by_level,
                     structlog.stdlib.add_logger_name,
                     structlog.stdlib.add_log_level,
-                    # structlog.stdlib.add_log_level_number,
+                    structlog.stdlib.add_log_level_number,
                     structlog.stdlib.PositionalArgumentsFormatter(),
                     structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M.%S"),
                     structlog.processors.StackInfoRenderer(), 
                     structlog.processors.format_exc_info,
                     structlog.processors.UnicodeDecoder(),
-                    # structlog.stdlib.render_to_log_kwargs,
                     censor_logging, # censoring sensitive log messages
                     get_file_path,
                     logging_variant
