@@ -332,7 +332,8 @@ class SysmetricLogger(RootLogger):
         class_name: str, 
         function_name: str,
         resolution: int = 1,
-        censor_keys: list = []
+        censor_keys: list = [],
+        **kwargs
     ):
         """ Commences periodic polling and logging of hardware stats of the 
             current system.
@@ -367,7 +368,8 @@ class SysmetricLogger(RootLogger):
             descriptors = {
                 "ID_path": file_path,
                 "ID_class": class_name,
-                "ID_function": function_name
+                "ID_function": function_name,
+                **kwargs
             }
 
             self.tracker = Process(target=target, args=(descriptors,))
