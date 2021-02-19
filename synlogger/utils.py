@@ -98,7 +98,78 @@ class StructlogUtils:
         Returns:
             Updated event metadata (dict)
         """
-        event_dict["timestamp"] = datetime.datetime.utcnow()
+        event_dict['timestamp'] = datetime.datetime.utcnow()
+        return event_dict
+
+
+    def track_cpu_stats(self, _, __, event_dict: dict) -> dict:
+        """ Logs the following CPU statistics of the system:
+            1) % of CPU used by system
+
+        Args:
+            event_dict (dict): Logging metadata accumulated
+        Returns:
+            Updated event metadata (dict)
+        """
+        event_dict['cpu_percent'] = psutil.cpu_percent(interval=None)
+        return event_dict
+
+
+    def track_memory_stats(self, _, __, event_dict: dict) -> dict:
+        """ Logs the following memory statistics of the system:
+            1) memory_total (int): Total memory of system
+            2) memory_available (int): Available memory for use by system
+            3) memory_used (int): Memory used by system
+            4) memory_free (int): Free memory unused by system
+
+
+        Args:
+            event_dict (dict): Logging metadata accumulated
+        Returns:
+            Updated event metadata (dict)
+        """
+        event_dict['memory_total'] = psutil.virtual_memory().total
+        event_dict['memory_available'] = psutil.virtual_memory().available
+        event_dict['memory_used'] = psutil.virtual_memory().used
+        event_dict['memory_free'] = psutil.virtual_memory().free
+        return event_dict
+
+
+    def track_disk_stats(self, _, __, event_dict: dict) -> dict:
+        """ Logs the following DiskIO usage statistics of the system:
+            1) disk_read_counter (int): No. of disk reads
+            2) disk_write_counter (int): No. of disk writes
+            3) disk_read_bytes (int): No. of bytes read
+            4) disk_write_bytes (int): No. of bytes wrote
+
+        Args:
+            event_dict (dict): Logging metadata accumulated
+        Returns:
+            Updated event metadata (dict)
+        """
+        event_dict['disk_read_counter'] = psutil.disk_io_counters().read_count
+        event_dict['disk_write_counter'] = psutil.disk_io_counters().write_count
+        event_dict['disk_read_bytes'] = psutil.disk_io_counters().read_bytes
+        event_dict['disk_write_bytes'] = psutil.disk_io_counters().write_bytes
+        return event_dict
+
+
+    def track_network_stats(self, _, __, event_dict: dict) -> dict:
+        """ Logs the following NetworkIO usage statistics of the system:
+            1) net_bytes_sent (int): No. of bytes sent from the network
+            2) net_bytes_recv (int): No. of bytes sent to the network
+            3) net_packets_sent (int): No. of network packets sent 
+            4) net_packets_recv (int): No. of network packets received
+
+        Args:
+            event_dict (dict): Logging metadata accumulated
+        Returns:
+            Updated event metadata (dict)
+        """
+        event_dict['net_bytes_sent'] = psutil.net_io_counters().bytes_sent
+        event_dict['net_bytes_recv'] = psutil.net_io_counters().bytes_recv
+        event_dict['net_packets_sent'] = psutil.net_io_counters().packets_sent
+        event_dict['net_packets_recv'] = psutil.net_io_counters().packets_recv
         return event_dict
 
 
@@ -128,110 +199,3 @@ class StructlogUtils:
         # kwargs['extra']['function'] = ""
 
         return args, kwargs
-
-
-
-###############################################################
-# Logging Filter Clases for logging dynamic generated inputs  # 
-###############################################################
-
-class CPU_Filter(logging.Filter):
-    """
-    Logging the CPU Usage
-
-    Attributes:
-        cpu_percent (float): % of CPU used by system
-    """
-    def __init__(self):
-        # In an actual use case would dynamically get this
-        # (e.g. from memcache)
-        self.cpu_percent = psutil.cpu_percent(interval=None)
-
-
-    def filter(self, record: logging.LogRecord) -> bool:
-        record.cpu_percent = self.cpu_percent
-        return True # required if the record is to be processed
-
-
-
-class Memory_Filter(logging.Filter):
-    """
-    Logging the Memory usage
-
-    Attributes:
-        memory_total (int): Total memory of system
-        memory_available (int): Available memory for use by system
-        memory_used (int): Memory used by system
-        memory_free (int): Free memory unused by system
-    """
-    def __init__(self):
-        # In an actual use case would dynamically get this
-        # (e.g. from memcache)
-        self.memory_total = psutil.virtual_memory().total
-        self.memory_available = psutil.virtual_memory().available
-        self.memory_used = psutil.virtual_memory().used
-        self.memory_free = psutil.virtual_memory().free
-
-
-    def filter(self, record: logging.LogRecord) -> bool:
-        record.memory_total = self.memory_total
-        record.memory_available = self.memory_available
-        record.memory_used = self.memory_used
-        record.memory_free = self.memory_free
-        return True # required if the record is to be processed
-
-
-
-class DiskIO_Filter(logging.Filter):
-    """
-    Logging the DiskIO usage
-
-    Attributes:
-        disk_read_counter (int): No. of disk reads
-        disk_write_counter (int): No. of disk writes
-        disk_read_bytes (int): No. of bytes read
-        disk_write_bytes (int): No. of bytes wrote
-    """
-    def __init__(self):
-        # In an actual use case would dynamically get this
-        # (e.g. from memcache)
-        self.disk_read_counter = psutil.disk_io_counters().read_count
-        self.disk_write_counter = psutil.disk_io_counters().write_count
-        self.disk_read_bytes = psutil.disk_io_counters().read_bytes
-        self.disk_write_bytes = psutil.disk_io_counters().write_bytes
-
-
-    def filter(self, record: logging.LogRecord) -> bool:
-        record.disk_read_counter = self.disk_read_counter
-        record.disk_write_counter = self.disk_write_counter
-        record.disk_read_bytes = self.disk_read_bytes
-        record.disk_write_bytes = self.disk_write_bytes
-        return True # required if the record is to be processed
-
-
-
-class NetIO_Filter(logging.Filter):
-    """
-    Logging the NetworkIO usage
-
-    Attributes:
-        net_bytes_sent (int): No. of bytes sent from the network
-        net_bytes_recv (int): No. of bytes sent to the network
-        net_packets_sent (int): No. of network packets sent 
-        net_packets_recv (int): No. of network packets received
-    """
-    def __init__(self):
-        # In an actual use case would dynamically get this
-        # (e.g. from memcache)
-        self.net_bytes_sent = psutil.net_io_counters().bytes_sent
-        self.net_bytes_recv = psutil.net_io_counters().bytes_recv
-        self.net_packets_sent = psutil.net_io_counters().packets_sent
-        self.net_packets_recv = psutil.net_io_counters().packets_recv
-
-
-    def filter(self, record: logging.LogRecord) -> bool:
-        record.net_bytes_sent = self.net_bytes_sent
-        record.net_bytes_recv = self.net_bytes_recv
-        record.net_packets_sent = self.net_packets_sent
-        record.net_packets_recv = self.net_packets_recv
-        return True # required if the record is to be processed

@@ -30,7 +30,7 @@ from .config import (
     TTP_PORT, 
     WORKER_PORT
 )
-from .utils import CPU_Filter, Memory_Filter, DiskIO_Filter, NetIO_Filter
+from .utils import StructlogUtils
 
 ##################
 # Configurations #
@@ -215,13 +215,7 @@ class SysmetricLogger(RootLogger):
     ):
         # General attributes
         # e.g. misc attibutes unique to problem
-        self.__DEFAULT_FILTERS = [
-            CPU_Filter,
-            Memory_Filter,
-            DiskIO_Filter,
-            NetIO_Filter
-        ]
-        all_filters = self.__DEFAULT_FILTERS + filter_functions
+
 
         # Network attributes
         # e.g. server IP and/or port number
@@ -246,7 +240,7 @@ class SysmetricLogger(RootLogger):
             logging_level=logging_level, 
             logging_variant=logging_variant, 
             debugging_fields=debugging_fields, 
-            filter_functions=all_filters, 
+            filter_functions=filter_functions, 
             file_path=file_path
         )
 
@@ -265,6 +259,73 @@ class SysmetricLogger(RootLogger):
     ###########
     # Helpers #
     ###########
+
+    def _configure_processors(self, censor_keys):
+        """
+        """
+        structlog_utils = StructlogUtils(
+            censor_keys=censor_keys, 
+            file_path=self.file_path
+        )
+
+        track_cpu_stats = structlog_utils.track_cpu_stats
+        track_memory_stats = structlog_utils.track_memory_stats
+        track_disk_stats = structlog_utils.track_disk_stats
+        track_network_stats = structlog_utils.track_network_stats
+
+        ###########################
+        # Implementation Footnote #
+        ###########################
+
+        # [Cause]
+        # In Structlog, a processor is a callable object that executes a 
+        # certain action upon a given event_dict input, and returns an 
+        # augmented event_dict as output. As such, a Structlog processor chain
+        # is formed and parsed in order and sequentially. 
+        #  
+        # eg.
+        # wrapped_logger.msg(
+        #     f4(
+        #         wrapped_logger, "msg",
+        #         f3(
+        #             wrapped_logger, "msg",
+        #             f2(
+        #                 wrapped_logger, "msg",
+        #                 f1(
+        #                     wrapped_logger, "msg", 
+        #                     {"event": "some_event", "x": 42, "y": 23}
+        #                 )
+        #             )
+        #         )
+        #     )
+        # )
+        #
+        # More details on this can be found at:
+        # https://www.structlog.org/en/stable/processors.html?highlight=chain
+
+        # [Problems]
+        # However, a custom processor handling PyGelf compatibility will
+        # have an asymmetric output w.r.t other processors, and thus cannot be
+        # used as inputs to a subsequent processor downstream. The generic
+        # processors procured from the parent class terminates with such a 
+        # process.
+
+        # [Solution]
+        # Ensure that generic processors procured from the parent class are
+        # ALWAYS appended at the back of the processor list, ensuring that the
+        # custom PyGelf processor is ALWAYS the final processor executed.
+
+        generic_processors = super()._configure_processors(censor_keys)
+        hardware_processors = [
+            track_cpu_stats,
+            track_memory_stats,
+            track_disk_stats,
+            track_network_stats
+        ]
+        all_processors = hardware_processors + generic_processors
+        
+        return all_processors
+
 
     def __exit(self, signnum: str, frame) -> None:
         """ Exit signal to terminate system tracking
@@ -312,15 +373,12 @@ class SysmetricLogger(RootLogger):
             descriptors (dict(str, str)): Localisation descriptors identifying
                 the current running source code segment. Default: {}
         """
-        # Filters have to be re-applied for stats to be updated
-        self.apply_filters(self.templog, self.filter_functions)
         self.synlog.info(
             f"{self.logger_name} - Probing system's hardware usage", 
             resolution=resolution,
             **descriptors
         )
         time.sleep(resolution)
-
 
     ##################
     # Core Functions #
@@ -380,17 +438,31 @@ class SysmetricLogger(RootLogger):
 
 
     def terminate(self) -> int:
-        """ Terminate the hardware monitoring process
+        """ Terminate the hardware monitoring process. An exit code is returned
+            in accordance to the following rules:
+            1) If previously tracking, return terminated process ID.
+                a) if sucessful, exit_code == 0
+                b) Otherwise, exit_code > 0
+            2) Otherwise, return -42
 
         Returns:
             Exit code (int)
         """
-        # Sending the SIGTERM signal to the child
-        self.tracker.terminate()
-        self.tracker.join()
-        exit_code = self.tracker.exitcode
+        exit_code = -42
 
-        # Reset state of tracker
-        self.tracker.close()
-        self.tracker = None
+        if self.is_tracking():
+            # Sending the SIGTERM signal to the child
+            self.tracker.terminate()
+            self.tracker.join()
+            exit_code = self.tracker.exitcode
+
+            # Reset state of tracker
+            self.tracker.close()
+            self.tracker = None
+
+            self.synlog.info(f"Tracking terminated with exit code {exit_code}")
+
+        else:
+            self.synlog.warn(f"Attempted to terminate in non-tracking state. Command skipped.")
+
         return exit_code

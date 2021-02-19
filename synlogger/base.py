@@ -28,7 +28,17 @@ from .utils import StructlogUtils
 
 class RootLogger(AbstractLogger):
     """
-    initialise configuration for setting up a logging server using structlog
+    Initialises configuration for setting up a logging server using Structlog.
+    Custom filters can be applied for more meaningfully/context-driven logs.
+    However, such filter functions declared MUST take on the following 
+    parameter signature, in accordance to Structlog standards:
+
+        def <function_name>(logger, log_method, event_dict):
+            ...
+            return event_dict
+        
+    More details on this can be found at:
+    https://www.structlog.org/en/stable/processors.html?highlight=filtering#filtering
 
     Attributes:
         server (str): Host address of the logging server e.g. 127.0.0.1
@@ -41,8 +51,8 @@ class RootLogger(AbstractLogger):
             Default: "basic"
         debugging_fields (bool): Toggles adding debug fields from the log
             record into the GELF logs to be sent to Graylog
-        filter_functions (list(callable)): List of Filter modules to apply on
-            logging records
+        filter_functions (list(callable)): List of callables to be applied for
+            filtering. 
         file_path (str): File location where logging is called
     """
     def __init__(
@@ -72,7 +82,6 @@ class RootLogger(AbstractLogger):
         # Data attributes
         # e.g participant_id/run_id in specific format
         self.synlog = None
-        self.templog = None
 
         # Optimisation attributes
         # e.g multiprocess/asyncio if necessary for optimisation
@@ -93,25 +102,92 @@ class RootLogger(AbstractLogger):
         Returns:
             State (bool)
         """
-        return self.synlog and self.templog
+        return self.synlog is not None
 
     ###########
     # Helpers #
     ###########
-    
-    def apply_filters(
-        self, 
-        logger: structlog.BoundLogger,
-        filter_functions: List[Callable]
-    ) -> None:
-        """ Apply filters on a specified logger
+
+    def _configure_processors(self, censor_keys):
+        """ Function for assembling 
 
         Args:
-            logger (logging.RootLogger): A logger object
-            filter_functions (list(Callable)): List of custom filter classes
+            censor_keys (list(callable)):
+        Returns:
+            Structlog Processes (list(callable))
         """
-        for filter in filter_functions:
-            logger.addFilter(filter())
+        structlog_utils = StructlogUtils(
+            censor_keys=censor_keys, 
+            file_path=self.file_path
+        )
+        censor_logging = structlog_utils.censor_logging
+        get_file_path = structlog_utils.get_file_path
+        add_timestamp = structlog_utils.add_timestamp
+        logging_renderer = (
+            structlog_utils.graypy_structlog_processor
+            if self.logging_variant == "graylog"
+            else structlog.processors.JSONRenderer(indent=1) # msg as dict
+        )
+
+        ###########################
+        # Implementation Footnote #
+        ###########################
+
+        # [Cause]
+        # In Structlog, a processor is a callable object that executes a 
+        # certain action upon a given event_dict input, and returns an 
+        # augmented event_dict as output. As such, a Structlog processor chain
+        # is formed and parsed in order and sequentially. 
+        #  
+        # eg.
+        # wrapped_logger.msg(
+        #     f4(
+        #         wrapped_logger, "msg",
+        #         f3(
+        #             wrapped_logger, "msg",
+        #             f2(
+        #                 wrapped_logger, "msg",
+        #                 f1(
+        #                     wrapped_logger, "msg", 
+        #                     {"event": "some_event", "x": 42, "y": 23}
+        #                 )
+        #             )
+        #         )
+        #     )
+        # )
+        #
+        # More details on this can be found at:
+        # https://www.structlog.org/en/stable/processors.html?highlight=chain
+
+        # [Problems]
+        # However, for the event_dict to be usable in PyGelf, it has to be
+        # re-casted in a different form, and expressed as args and kwargs. This
+        # means that the custom processor handling PyGelf compatibility will
+        # have an asymmetric output w.r.t other processors, and thus cannot be
+        # used as inputs to a subsequent processor downstream. Doing so results
+        # in `TypeError: 'str' object does not support item assignment`.
+
+        # [Solution]
+        # Ensure that logging renderer is always the last element of the 
+        # processor list (i.e. last unit of the processor chain).
+
+        processors = [
+            structlog.stdlib.add_logger_name,
+            structlog.stdlib.add_log_level,
+            structlog.stdlib.add_log_level_number,
+            structlog.stdlib.filter_by_level,
+            structlog.stdlib.PositionalArgumentsFormatter(),
+            structlog.processors.format_exc_info,
+            structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M.%S"),
+            structlog.processors.StackInfoRenderer(), 
+            structlog.processors.UnicodeDecoder(),
+            *self.filter_functions, # apply custom filters
+            censor_logging,         # censoring sensitive log messages
+            get_file_path,
+            logging_renderer        # IMPT - MUST BE LAST!
+        ]
+
+        return processors
 
     ##################
     # Core Functions #
@@ -121,7 +197,7 @@ class RootLogger(AbstractLogger):
         self,
         censor_keys: list = [],
         **kwargs
-    ) -> Tuple[structlog._config.BoundLoggerLazyProxy, structlog.BoundLogger]:
+    ) -> structlog._config.BoundLoggerLazyProxy:
         """ initialise configuration for structlog & pygelf for logging messages
             
             e.g. logging a debug message "hello" to graylog server
@@ -134,61 +210,21 @@ class RootLogger(AbstractLogger):
             }
 
         Args:
-            censor_keys (list(str)): Censor any logs with the specified keys with 
-                the value "*CENSORED*". This protects user-specific secrets.
+            censor_keys (list(str)): Censor any logs with the specified keys 
+            with the value "*CENSORED*". This protects user-specific secrets.
             kwargs: 
         Returns:
             syn_logger: A structlog + Pygelf logger
             logger: base logger class
         """
         if not self.is_initialised():
-            structlogUtils = StructlogUtils(
-                censor_keys=censor_keys, 
-                file_path=self.file_path
-            )
-            censor_logging = structlogUtils.censor_logging
-            get_file_path = structlogUtils.get_file_path
-            graypy_structlog_processor = structlogUtils.graypy_structlog_processor
-            logging_variant = (
-                graypy_structlog_processor
-                if self.logging_variant == "graylog"
-                else structlog.processors.JSONRenderer(indent=1) # msg as dict
-            )
 
-            structlog.configure(
-                processors=[
-                    structlog.stdlib.filter_by_level,
-                    structlog.stdlib.add_logger_name,
-                    structlog.stdlib.add_log_level,
-                    structlog.stdlib.add_log_level_number,
-                    structlog.stdlib.PositionalArgumentsFormatter(),
-                    structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M.%S"),
-                    structlog.processors.StackInfoRenderer(), 
-                    structlog.processors.format_exc_info,
-                    structlog.processors.UnicodeDecoder(),
-                    censor_logging, # censoring sensitive log messages
-                    get_file_path,
-                    logging_variant
-                ],
-                context_class=dict,
-                logger_factory=structlog.stdlib.LoggerFactory(),
-                wrapper_class=structlog.stdlib.BoundLogger,
-                cache_logger_on_first_use=True,
-            )
-
-            logging.basicConfig(
-                format="%(message)s",
-                stream=sys.stdout,
-                level=self.logging_level # default
-            )
-
-            # Logger templates for basic logging and structlog MUST tally
-            logger = logging.getLogger(self.logger_name) 
+            core_logger = logging.getLogger(self.logger_name) 
 
             if self.logging_variant == 'graylog':
                 
-                # Disable default debugging fields such as "function", "pid", 
-                # "process_name", "thread_name"
+                # `debugging_fields` toggle default debugging fields such as 
+                # "function", "pid", "process_name", "thread_name", etc.
                 handler = graypy.GELFTCPHandler(
                     host=self.server, 
                     port=self.port,
@@ -196,12 +232,29 @@ class RootLogger(AbstractLogger):
                     facility="", 
                     level_names=True
                 )
-                logger.addHandler(handler)
 
-            self.apply_filters(logger, self.filter_functions)
+            else:
+                handler = logging.NullHandler()
 
-            self.synlog = structlog.get_logger(self.logger_name)
-            self.templog = logger
+            core_logger.addHandler(handler)
 
-        return self.synlog, self.templog
+            processors = self._configure_processors(censor_keys)
+            sys_logger = structlog.wrap_logger(
+                logger=core_logger,
+                processors=processors,
+                wrapper_class=structlog.stdlib.BoundLogger,
+                context_class=dict,
+                cache_logger_on_first_use=True
+            )
+
+            self.synlog = sys_logger
+
+        # Allow for dynamic reconfiguration
+        logging.basicConfig(
+            format="%(message)s",
+            stream=sys.stdout,
+            level=self.logging_level # default
+        )
+
+        return self.synlog
 
