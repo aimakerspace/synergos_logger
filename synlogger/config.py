@@ -17,11 +17,21 @@ from string import Template
 # Configurations #
 ##################
 
+# Default string used to censor sensitive values
+CENSOR = "*CENSORED*"
+
 # Default logger prefixes to faciliate role detection
-DIRECTOR_NAME_TEMPLATE = Template("DIR_$name")
-TTP_NAME_TEMPLATE = Template("TTP_$name")
-WORKER_NAME_TEMPLATE = Template("WKR_$name")
-SYSMETRICS_NAME_TEMPLATE = Template("SYS_$name")
+DIRECTOR_PREFIX = "DIR"
+TTP_PREFIX = "TTP"
+WORKER_PREFIX = "WKR"
+SYSMETRICS_PREFIX = "SYS"
+
+
+# Default logger templates to faciliate role detection
+DIRECTOR_NAME_TEMPLATE = Template(f"{DIRECTOR_PREFIX}_$name")
+TTP_NAME_TEMPLATE = Template(f"{TTP_PREFIX}_$name")
+WORKER_NAME_TEMPLATE = Template(f"{WORKER_PREFIX}_$name")
+SYSMETRICS_NAME_TEMPLATE = Template(f"{SYSMETRICS_PREFIX}_$name")
 
 
 # Default logging ports to be created in the graylog server. All logs from 

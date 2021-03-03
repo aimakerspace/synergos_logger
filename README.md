@@ -118,7 +118,7 @@ ttp_logger = TTPLogger(
 )
 
 # Initialise your logger
-syn_logging, _ = ttp_logger.initialise()
+syn_logging = ttp_logger.initialise()
 
 # Log your message
 syn_logging.info("Hello World!", owner="me")

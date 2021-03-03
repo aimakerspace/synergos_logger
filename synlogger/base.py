@@ -41,29 +41,36 @@ class RootLogger(AbstractLogger):
     https://www.structlog.org/en/stable/processors.html?highlight=filtering#filtering
 
     Attributes:
-        server (str): Host address of the logging server e.g. 127.0.0.1
-        port (int): Port of the logging server e.g. 9000 for graylog
         logger_name (str): Logger ID by name e.g. TTP, worker_1, worker_2
-        logging_level (int): logging.DEBUG, logging.INFO, logging.WARNING etc.
         logging_variant: Type of logging to use. There are 2 main options:
             1. "basic" -> basic logging, 
             2. "graylog" -> logging to graylog server
             Default: "basic"
-        debugging_fields (bool): Toggles adding debug fields from the log
-            record into the GELF logs to be sent to Graylog
+        server (str): Host address of the logging server e.g. 127.0.0.1 
+            to be specified if logging_variant != 'basic'. Default: None
+        port (int): Port of the logging server e.g. 9000 for graylog 
+            to be specified if logging_variant != 'basic'. Default: None
+        logging_level (int): logging.DEBUG, logging.INFO, logging.WARNING 
+            etc. Default: logging.INFO (i.e. 20)
+        debugging_fields (bool): Toggles adding debug fields from the log 
+            record into the GELF logs to be sent to Graylog. Default: False
         filter_functions (list(callable)): List of callables to be applied for
-            filtering. 
+            filtering. Default: []
+        censor_keys (list(str)): Censor any logs with the specified keys 
+            with the value "*CENSORED*". This protects user-specific 
+            secrets. Default: []
         file_path (str): File location where logging is called
     """
     def __init__(
         self, 
-        server: str,
-        port: int, 
         logger_name: str = "std_log", 
-        logging_level: int = logging.INFO, 
-        logging_variant: str = "graylog",
+        logging_variant: str = "basic",
+        server: str = None,
+        port: int = None, 
+        logging_level: int = logging.INFO,
         debugging_fields: bool = False,
         filter_functions: List[str] = [], 
+        censor_keys: list = [],
         file_path: str = ""
     ):
         # General attributes
@@ -81,6 +88,7 @@ class RootLogger(AbstractLogger):
 
         # Data attributes
         # e.g participant_id/run_id in specific format
+        self.censor_keys = censor_keys
         self.synlog = None
 
         # Optimisation attributes
@@ -108,26 +116,25 @@ class RootLogger(AbstractLogger):
     # Helpers #
     ###########
 
-    def _configure_processors(self, censor_keys):
-        """ Function for assembling 
+    def _configure_processors(self):
+        """ Assembles a list of processors to be use as filters during logging
 
-        Args:
-            censor_keys (list(callable)):
         Returns:
             Structlog Processes (list(callable))
         """
         structlog_utils = StructlogUtils(
-            censor_keys=censor_keys, 
+            censor_keys=self.censor_keys,
             file_path=self.file_path
         )
+        RENDER_MAP = {
+            'basic': structlog.processors.JSONRenderer(indent=1), # msg as dict
+            'graylog': structlog_utils.graypy_structlog_processor,
+            'test': structlog.testing.LogCapture()
+        }
         censor_logging = structlog_utils.censor_logging
         get_file_path = structlog_utils.get_file_path
         add_timestamp = structlog_utils.add_timestamp
-        logging_renderer = (
-            structlog_utils.graypy_structlog_processor
-            if self.logging_variant == "graylog"
-            else structlog.processors.JSONRenderer(indent=1) # msg as dict
-        )
+        logging_renderer = RENDER_MAP[self.logging_variant]
 
         ###########################
         # Implementation Footnote #
@@ -182,8 +189,8 @@ class RootLogger(AbstractLogger):
             structlog.processors.StackInfoRenderer(), 
             structlog.processors.UnicodeDecoder(),
             *self.filter_functions, # apply custom filters
-            censor_logging,         # censoring sensitive log messages
             get_file_path,
+            censor_logging,         # censor sensitive log messages - 2nd last!
             logging_renderer        # IMPT - MUST BE LAST!
         ]
 
@@ -193,11 +200,7 @@ class RootLogger(AbstractLogger):
     # Core Functions #
     ##################
 
-    def initialise(
-        self,
-        censor_keys: list = [],
-        **kwargs
-    ) -> structlog._config.BoundLoggerLazyProxy:
+    def initialise(self, **kwargs) -> structlog._config.BoundLoggerLazyProxy:
         """ initialise configuration for structlog & pygelf for logging messages
             
             e.g. logging a debug message "hello" to graylog server
@@ -210,16 +213,38 @@ class RootLogger(AbstractLogger):
             }
 
         Args:
-            censor_keys (list(str)): Censor any logs with the specified keys 
-            with the value "*CENSORED*". This protects user-specific secrets.
-            kwargs: 
+            kwargs: Miscellaneous values for compatibility
         Returns:
             syn_logger: A structlog + Pygelf logger
-            logger: base logger class
         """
+        logging.basicConfig(
+            format="%(message)s",
+            stream=sys.stdout,
+            level=self.logging_level
+        )
+
+        core_logger = logging.getLogger(self.logger_name) 
+
         if not self.is_initialised():
 
-            core_logger = logging.getLogger(self.logger_name) 
+            ###########################
+            # Implementation Footnote #
+            ###########################
+
+            # [Cause]
+            # When adding handlers to logging.Logger, handlers get appended to an
+            # existing pool of handlers.
+
+            # [Problems]
+            # Blindly appending handlers will result in multiple handlers cached,
+            # which results in duplicated logging entries. Calling `.initialise()`
+            # thus fails to be idempotent.
+
+            # [Solution]
+            # Clear all handlers under logger first before initialisation.
+
+            if core_logger.hasHandlers():
+                core_logger.handlers.clear()
 
             if self.logging_variant == 'graylog':
                 
@@ -238,23 +263,17 @@ class RootLogger(AbstractLogger):
 
             core_logger.addHandler(handler)
 
-            processors = self._configure_processors(censor_keys)
-            sys_logger = structlog.wrap_logger(
-                logger=core_logger,
-                processors=processors,
-                wrapper_class=structlog.stdlib.BoundLogger,
-                context_class=dict,
-                cache_logger_on_first_use=True
-            )
-
-            self.synlog = sys_logger
-
-        # Allow for dynamic reconfiguration
-        logging.basicConfig(
-            format="%(message)s",
-            stream=sys.stdout,
-            level=self.logging_level # default
+        # Allows for dynamic reconfiguration for filtering processors
+        processors = self._configure_processors()
+        sys_logger = structlog.wrap_logger(
+            logger=core_logger,
+            processors=processors,
+            wrapper_class=structlog.stdlib.BoundLogger,
+            context_class=dict,
+            cache_logger_on_first_use=True
         )
+
+        self.synlog = sys_logger
 
         return self.synlog
 

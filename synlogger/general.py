@@ -5,14 +5,11 @@
 ####################
 
 # Generic/Built-in
-import asyncio
-import functools
 import logging
 import signal
 import sys
 import time
 from multiprocessing import Process
-from subprocess import Popen
 from typing import Dict, List
 
 # Lib
@@ -45,13 +42,15 @@ class DirectorLogger(RootLogger):
 
     def __init__(
         self, 
-        server: str,
-        logger_name: str, 
+        logger_name: str,
+        logging_variant: str = "basic",
+        server: str = None,
+        port: int = None,
         logging_level: int = logging.INFO, 
-        logging_variant: str = "graylog",
         debugging_fields: bool = False,
         filter_functions: List[str] = [], 
-        file_path: str = "",
+        censor_keys: list = [],
+        file_path: str = ""
     ):
         # General attributes
         # e.g. misc attibutes unique to problem
@@ -59,7 +58,7 @@ class DirectorLogger(RootLogger):
 
         # Network attributes
         # e.g. server IP and/or port number
-
+        PORT = port if port else DIRECTOR_PORT 
 
         # Data attributes
         # e.g participant_id/run_id in specific format
@@ -75,12 +74,13 @@ class DirectorLogger(RootLogger):
 
         super().__init__(
             server=server, 
-            port=DIRECTOR_PORT, 
+            port=PORT, 
             logger_name=NODE_NAME, 
             logging_level=logging_level, 
             logging_variant=logging_variant, 
             debugging_fields=debugging_fields, 
             filter_functions=filter_functions, 
+            censor_keys=censor_keys,
             file_path=file_path
         )
 
@@ -94,13 +94,15 @@ class TTPLogger(RootLogger):
 
     def __init__(
         self, 
-        server: str,
-        logger_name: str, 
+        logger_name: str,
+        logging_variant: str = "basic",
+        server: str = None,
+        port: int = None,
         logging_level: int = logging.INFO, 
-        logging_variant: str = "graylog",
         debugging_fields: bool = False,
         filter_functions: List[str] = [], 
-        file_path: str = "",
+        censor_keys: list = [],
+        file_path: str = ""
     ):
         # General attributes
         # e.g. misc attibutes unique to problem
@@ -108,7 +110,7 @@ class TTPLogger(RootLogger):
 
         # Network attributes
         # e.g. server IP and/or port number
-
+        PORT = port if port else TTP_PORT 
 
         # Data attributes
         # e.g participant_id/run_id in specific format
@@ -124,12 +126,13 @@ class TTPLogger(RootLogger):
 
         super().__init__(
             server=server, 
-            port=TTP_PORT, 
+            port=PORT, 
             logger_name=NODE_NAME, 
             logging_level=logging_level, 
             logging_variant=logging_variant, 
             debugging_fields=debugging_fields, 
             filter_functions=filter_functions, 
+            censor_keys=censor_keys,
             file_path=file_path
         )
 
@@ -143,12 +146,14 @@ class WorkerLogger(RootLogger):
 
     def __init__(
         self, 
-        server: str,
-        logger_name: str, 
+        logger_name: str,
+        logging_variant: str = "basic",
+        server: str = None,
+        port: int = None,
         logging_level: int = logging.INFO, 
-        logging_variant: str = "graylog",
         debugging_fields: bool = False,
         filter_functions: List[str] = [], 
+        censor_keys: list = [],
         file_path: str = "",
     ):
         # General attributes
@@ -157,7 +162,7 @@ class WorkerLogger(RootLogger):
 
         # Network attributes
         # e.g. server IP and/or port number
-
+        PORT = port if port else WORKER_PORT
 
         # Data attributes
         # e.g participant_id/run_id in specific format
@@ -173,12 +178,13 @@ class WorkerLogger(RootLogger):
 
         super().__init__(
             server=server, 
-            port=WORKER_PORT, 
+            port=PORT, 
             logger_name=NODE_NAME, 
             logging_level=logging_level, 
             logging_variant=logging_variant, 
             debugging_fields=debugging_fields, 
             filter_functions=filter_functions, 
+            censor_keys=censor_keys,
             file_path=file_path
         )
 
@@ -205,13 +211,15 @@ class SysmetricLogger(RootLogger):
     """
     def __init__(
         self, 
-        server: str,
-        logger_name: str, 
+        logger_name: str,
+        logging_variant: str = "basic",
+        server: str = None,
+        port: int = None,
         logging_level: int = logging.INFO, 
-        logging_variant: str = "graylog",
         debugging_fields: bool = False,
         filter_functions: List[str] = [], 
-        file_path: str = ""
+        censor_keys: list = [],
+        file_path: str = "",
     ):
         # General attributes
         # e.g. misc attibutes unique to problem
@@ -219,7 +227,7 @@ class SysmetricLogger(RootLogger):
 
         # Network attributes
         # e.g. server IP and/or port number
-
+        PORT = port if port else SYSMETRICS_PORT
 
         # Data attributes
         # e.g participant_id/run_id in specific format
@@ -235,12 +243,13 @@ class SysmetricLogger(RootLogger):
 
         super().__init__(
             server=server, 
-            port=SYSMETRICS_PORT, 
+            port=PORT, 
             logger_name=NODE_NAME, 
             logging_level=logging_level, 
             logging_variant=logging_variant, 
             debugging_fields=debugging_fields, 
             filter_functions=filter_functions, 
+            censor_keys=censor_keys,
             file_path=file_path
         )
 
@@ -260,11 +269,17 @@ class SysmetricLogger(RootLogger):
     # Helpers #
     ###########
 
-    def _configure_processors(self, censor_keys):
-        """
+    def _configure_processors(self):
+        """ Overrides parent's _configure_processors() to add in system
+            tracking filters
+
+        Args:
+            censor_keys (list(callable)):
+        Returns:
+            Structlog Processes (list(callable))
         """
         structlog_utils = StructlogUtils(
-            censor_keys=censor_keys, 
+            censor_keys=self.censor_keys, 
             file_path=self.file_path
         )
 
@@ -315,7 +330,7 @@ class SysmetricLogger(RootLogger):
         # ALWAYS appended at the back of the processor list, ensuring that the
         # custom PyGelf processor is ALWAYS the final processor executed.
 
-        generic_processors = super()._configure_processors(censor_keys)
+        generic_processors = super()._configure_processors()
         hardware_processors = [
             track_cpu_stats,
             track_memory_stats,
@@ -327,12 +342,11 @@ class SysmetricLogger(RootLogger):
         return all_processors
 
 
-    def __exit(self, signnum: str, frame) -> None:
+    def _exit(self, signnum: str, frame) -> None:
         """ Exit signal to terminate system tracking
 
         Args:
             signame (str): Signal recieved
-
         """
         signame = signal.Signals(signnum).name
         self.synlog.info(
@@ -347,7 +361,7 @@ class SysmetricLogger(RootLogger):
         sys.exit(0)
 
 
-    def __probe(
+    def _probe(
         self,
         resolution: int = 1,
         descriptors: Dict[str, str] = {},
@@ -390,7 +404,6 @@ class SysmetricLogger(RootLogger):
         class_name: str, 
         function_name: str,
         resolution: int = 1,
-        censor_keys: list = [],
         **kwargs
     ):
         """ Commences periodic polling and logging of hardware stats of the 
@@ -415,13 +428,13 @@ class SysmetricLogger(RootLogger):
             DEFAULT_SIGNALS = ('SIGINT', 'SIGTERM')
             for signame in DEFAULT_SIGNALS:
                 signal_code = getattr(signal, signame)
-                signal.signal(signal_code, self.__exit)
+                signal.signal(signal_code, self._exit)
 
             while True:
-                self.__probe(resolution=resolution, descriptors=descriptors)
+                self._probe(resolution=resolution, descriptors=descriptors)
 
         if not self.is_tracking():
-            self.initialise(censor_keys=censor_keys)
+            self.initialise()
             
             descriptors = {
                 "ID_path": file_path,
@@ -448,6 +461,9 @@ class SysmetricLogger(RootLogger):
         Returns:
             Exit code (int)
         """
+        if not self.is_initialised():
+            raise RuntimeError(f"Attempted to terminate logger {self.logger_name} before initialisation!")
+
         exit_code = -42
 
         if self.is_tracking():

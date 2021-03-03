@@ -5,7 +5,6 @@
 ####################
 
 # Generic/Built-in
-import logging
 import datetime
 from typing import List, Tuple
 
@@ -13,7 +12,7 @@ from typing import List, Tuple
 import psutil
 
 # Custom
-
+from synlogger.config import CENSOR
 
 ##################
 # Configurations #
@@ -72,7 +71,7 @@ class StructlogUtils:
         for key in self.censor_keys:
             k = event_dict.get(key)
             if k:
-                event_dict[key] = "*CENSORED*"
+                event_dict[key] = CENSOR
         return event_dict
 
 
@@ -196,6 +195,6 @@ class StructlogUtils:
         kwargs['extra']['process_name'] = ""
         kwargs['extra']['thread_name'] = ""
         kwargs['extra']['file'] = ""
-        # kwargs['extra']['function'] = ""
+        kwargs['extra']['function'] = ""
 
         return args, kwargs
