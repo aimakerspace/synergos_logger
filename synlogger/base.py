@@ -217,13 +217,10 @@ class RootLogger(AbstractLogger):
         Returns:
             syn_logger: A structlog + Pygelf logger
         """
-        logging.basicConfig(
-            format="%(message)s",
-            stream=sys.stdout,
-            level=self.logging_level
-        )
+        logging.basicConfig(format="%(message)s", stream=sys.stdout)
 
         core_logger = logging.getLogger(self.logger_name) 
+        core_logger.setLevel(level=self.logging_level)
 
         if not self.is_initialised():
 
