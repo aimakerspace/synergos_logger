@@ -15,12 +15,15 @@ import structlog
 
 # Custom
 from .abstract import AbstractLogger
+from .config import LOGGING_FORMAT
 from .utils import StructlogUtils
 
 ##################
 # Configurations #
 ##################
 
+# Monkey patching structlog to support 'notset' level
+structlog.stdlib._LEVEL_TO_NAME[logging.NOTSET] = 'notset'
 
 ########################################
 # Organisation Base Class - RootLogger #
@@ -217,8 +220,6 @@ class RootLogger(AbstractLogger):
         Returns:
             syn_logger: A structlog + Pygelf logger
         """
-        logging.basicConfig(format="%(message)s", stream=sys.stdout)
-
         core_logger = logging.getLogger(self.logger_name) 
         core_logger.setLevel(level=self.logging_level)
 
@@ -256,9 +257,13 @@ class RootLogger(AbstractLogger):
                 )
 
             else:
+                # handler = logging.StreamHandler(stream=sys.stdout)
                 handler = logging.NullHandler()
 
-            core_logger.addHandler(handler)
+            format = LOGGING_FORMAT.safe_substitute({'name': self.logger_name})
+            formatter = logging.Formatter(format)
+            handler.setFormatter(formatter)
+            core_logger.addHandler(handler) 
 
         # Allows for dynamic reconfiguration for filtering processors
         processors = self._configure_processors()

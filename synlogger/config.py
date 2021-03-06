@@ -17,6 +17,8 @@ from string import Template
 # Configurations #
 ##################
 
+LOGGING_FORMAT = Template("[$name] %(message)s")
+
 # Default string used to censor sensitive values
 CENSOR = "*CENSORED*"
 
@@ -26,13 +28,11 @@ TTP_PREFIX = "TTP"
 WORKER_PREFIX = "WKR"
 SYSMETRICS_PREFIX = "SYS"
 
-
 # Default logger templates to faciliate role detection
 DIRECTOR_NAME_TEMPLATE = Template(f"{DIRECTOR_PREFIX}_$name")
 TTP_NAME_TEMPLATE = Template(f"{TTP_PREFIX}_$name")
 WORKER_NAME_TEMPLATE = Template(f"{WORKER_PREFIX}_$name")
 SYSMETRICS_NAME_TEMPLATE = Template(f"{SYSMETRICS_PREFIX}_$name")
-
 
 # Default logging ports to be created in the graylog server. All logs from 
 # multiple target types will be matched to a single port i.e. all workers nodes

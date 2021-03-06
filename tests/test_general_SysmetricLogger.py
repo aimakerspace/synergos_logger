@@ -70,32 +70,6 @@ def test_SysmetricLogger_default_attibutes(sysmetric_logger_default_params):
     assert len(sysmetric_logger_default_params.censor_keys) == 0 
 
 
-def test_SysmetricLogger_is_tracking(sysmetric_logger_default_params):
-    """
-    Tests if tracking state is toggling correctly. Note that while the state
-    tested here is dependent on .track() & .terminate(), we are only testing
-    for the change of state. The correctness of .track() & .terminate() is not
-    enforced and is assumed to work here.
-
-    # C1: is_tracking returns False before tracking is started
-    # C2: is_tracking returns True after tracking is started
-    # C3: is_tracking returns False after tracking has been terminated
-    """
-    # C1
-    assert sysmetric_logger_default_params.is_tracking() == False
-    # C2
-    sysmetric_logger_default_params.track(
-        file_path=file_path,
-        class_name=class_name,
-        function_name=function_name,
-        resolution=POLL_INTERVAL
-    )
-    assert sysmetric_logger_default_params.is_tracking() == True
-    # C3
-    sysmetric_logger_default_params.terminate()
-    assert sysmetric_logger_default_params.is_tracking() == False
-
-
 def test_SysmetricLogger_configure_processors(sysmetric_logger_default_params):
     """
     Tests if sysmetric processors loaded are valid
@@ -122,6 +96,32 @@ def test_SysmetricLogger_configure_processors(sysmetric_logger_default_params):
         extract_name(sys_tracker) in processors_names
         for sys_tracker in SYSMETRIC_TRACKERS
     )
+
+
+def test_SysmetricLogger_is_tracking(sysmetric_logger):
+    """
+    Tests if tracking state is toggling correctly. Note that while the state
+    tested here is dependent on .track() & .terminate(), we are only testing
+    for the change of state. The correctness of .track() & .terminate() is not
+    enforced and is assumed to work here.
+
+    # C1: is_tracking returns False before tracking is started
+    # C2: is_tracking returns True after tracking is started
+    # C3: is_tracking returns False after tracking has been terminated
+    """
+    # C1
+    assert sysmetric_logger.is_tracking() == False
+    # C2
+    sysmetric_logger.track(
+        file_path=file_path,
+        class_name=class_name,
+        function_name=function_name,
+        resolution=POLL_INTERVAL
+    )
+    assert sysmetric_logger.is_tracking() == True
+    # C3
+    sysmetric_logger.terminate()
+    assert sysmetric_logger.is_tracking() == False
 
 
 def test_SysmetricLogger_track(sysmetric_logger):

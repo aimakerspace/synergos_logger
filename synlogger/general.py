@@ -388,7 +388,7 @@ class SysmetricLogger(RootLogger):
                 the current running source code segment. Default: {}
         """
         self.synlog.info(
-            f"{self.logger_name} - Probing system's hardware usage", 
+            "Probed system's hardware usage successfully.", 
             resolution=resolution,
             **descriptors
         )

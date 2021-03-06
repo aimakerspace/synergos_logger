@@ -6,10 +6,12 @@
 
 # Generic/Built-in
 import datetime
+import inspect
 from typing import List, Tuple
 
 # Lib
 import psutil
+from structlog._frames import _find_first_app_frame_and_name
 
 # Custom
 from synlogger.config import CENSOR
