@@ -387,7 +387,7 @@ class SysmetricLogger(RootLogger):
             descriptors (dict(str, str)): Localisation descriptors identifying
                 the current running source code segment. Default: {}
         """
-        self.synlog.debug(
+        self.synlog.info(
             "Probed system's hardware usage successfully.", 
             resolution=resolution,
             **descriptors
