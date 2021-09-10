@@ -23,7 +23,7 @@ As Synergos is still under development, its components have yet to be deployed o
 
 ```
 # Download source repository
-git clone https://gitlab.int.aisingapore.org/aims/federatedlearning/synergos_logger.git
+git clone https://github.com/aimakerspace/synergos_logger.git
 cd ./synergos_logger
 
 # Setup virtual environment

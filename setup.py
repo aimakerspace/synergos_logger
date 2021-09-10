@@ -37,7 +37,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
     keywords="synergos horizontal vertical federated learning logging graylog",
-    url="https://gitlab.int.aisingapore.org/aims/federatedlearning/synergos_logger",
+    url="https://github.com/aimakerspace/synergos_logger.git",
     license="MIT",
 
     packages=["synlogger"],
